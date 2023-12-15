@@ -35,15 +35,20 @@ public class ScheduleService {
 
         try {
             Scanner sc = new Scanner(file);
-            String temp = "";
+            String temp = "", content = "";
 
             while(sc.hasNextLine()) {
                 temp += sc.nextLine() + "\n";
             }
 
+            if (null == temp || temp.isBlank())
+                content = ":u7121: 파일의 내용이 없습니다.";
+            else
+                content = "```" + temp + "```";
+
             eb = new EmbedMessage().getEmbed(
                     ":page_facing_up: `" + file_name + "`의 로그",
-                    "```" + temp + "```"
+                    content
             );
         } catch (Exception e) {
             eb = new EmbedMessage().getErorrEmbed(

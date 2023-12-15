@@ -42,7 +42,7 @@ public class Main extends ListenerAdapter {
                                 scheduleService.getLogFileList(event);
                                 break;
                             default:
-                                scheduleService.getLogFileOpne(event, messge_split[2]);
+                                scheduleService.getLogFileOpen(event, messge_split[2]);
                                 break;
                         }
                         break;

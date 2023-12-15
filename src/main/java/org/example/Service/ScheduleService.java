@@ -2,6 +2,7 @@ package org.example.Service;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import org.example.util.EmbedMessage;
 
 import java.awt.*;
 import java.io.File;
@@ -11,10 +12,6 @@ public class ScheduleService {
 
     public void getLogFileList (MessageReceivedEvent event) {
         File dir = new File(LOG_DIR_PATH);
-        EmbedBuilder eb = new EmbedBuilder();
-
-        eb.setTitle(":file_folder: Log 파일 목록", null);   // Embed 형식 메시지의 Title
-        eb.setColor(Color.green);   // Embed 형식 메시지의 왼쪽 줄 생상
 
         String print_str = "";
 
@@ -23,7 +20,7 @@ public class ScheduleService {
             print_str += ":page_facing_up: `" + file_name + "`\n";
         }
 
-        eb.setDescription(print_str);   // String 형식으로 저장된 파일 목록을 출력
+        EmbedBuilder eb = new EmbedMessage().getEmbed(":file_folder: Log 파일 목록", print_str);
 
         // Discord 메시지 전송
         event.getChannel().sendMessageEmbeds(eb.build()).queue();

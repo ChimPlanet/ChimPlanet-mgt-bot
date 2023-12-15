@@ -5,11 +5,12 @@ import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.requests.GatewayIntent;
+import org.example.util.PropertiesLoad;
 
 public class Main extends ListenerAdapter {
 
     public static void main(String[] args){
-        JDA jda = JDABuilder.createDefault("")
+        JDA jda = JDABuilder.createDefault(new PropertiesLoad().getValue("bot_token"))
                 .enableIntents(GatewayIntent.MESSAGE_CONTENT)
                 .build();
 

@@ -5,7 +5,7 @@ import java.io.FileNotFoundException;
 import java.util.Properties;
 
 public class PropertiesLoad {
-    public String PropertiesLoad(String name) {
+    public String getValue(String name) {
         try {
             Properties prop = new Properties();
 

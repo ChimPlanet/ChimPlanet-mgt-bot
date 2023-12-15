@@ -11,6 +11,7 @@ import org.example.util.PropertiesLoad;
 public class Main extends ListenerAdapter {
 
     public static void main(String[] args){
+        // JDA 기본 세팅 및 실행
         JDA jda = JDABuilder.createDefault(new PropertiesLoad().getValue("bot_token"))
                 .enableIntents(GatewayIntent.MESSAGE_CONTENT)
                 .build();

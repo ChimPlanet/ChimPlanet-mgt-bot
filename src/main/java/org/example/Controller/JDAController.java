@@ -8,9 +8,15 @@ import org.example.util.PropertiesLoad;
 
 public class JDAController extends ListenerAdapter {
 
+    private static String LOG_CHANNEL_ID;  // 스케줄러의 작동 현황을 알리는 로그 채널 ID
+
+    public JDAController () {
+        LOG_CHANNEL_ID = new PropertiesLoad().getValue("log_channel_id");
+    }
+
     @Override
     public void onReady(ReadyEvent event) {
-        event.getJDA().getTextChannelById(new PropertiesLoad().getValue("log_channel_id")).sendMessage("실행").queue();
+        event.getJDA().getTextChannelById(LOG_CHANNEL_ID).sendMessage("실행").queue();
         super.onReady(event);
     }
 

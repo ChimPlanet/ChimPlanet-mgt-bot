@@ -2,11 +2,15 @@ package org.example;
 
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import org.example.Service.ScheduleService;
 import org.example.util.PropertiesLoad;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Main extends ListenerAdapter {
 
@@ -14,6 +18,7 @@ public class Main extends ListenerAdapter {
         // JDA 기본 세팅 및 실행
         JDA jda = JDABuilder.createDefault(new PropertiesLoad().getValue("bot_token"))
                 .enableIntents(GatewayIntent.MESSAGE_CONTENT)
+                .setActivity(Activity.watching("우왁굳의 게임방송"))
                 .build();
 
         jda.addEventListener(new Main());

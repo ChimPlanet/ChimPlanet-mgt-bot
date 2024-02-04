@@ -15,11 +15,11 @@ public class JDAController extends ListenerAdapter {
         LOG_CHANNEL_ID = new PropertiesLoad().getValue("log_channel_id");
     }
 
-    @Override
-    public void onReady(ReadyEvent event) {
-        event.getJDA().getTextChannelById(LOG_CHANNEL_ID).sendMessage("실행").queue();
-        super.onReady(event);
-    }
+//    @Override
+//    public void onReady(ReadyEvent event) {
+//        event.getJDA().getTextChannelById(LOG_CHANNEL_ID).sendMessage("실행").queue();
+//        super.onReady(event);
+//    }
 
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {

@@ -1,5 +1,6 @@
 package org.example.Controller;
 
+import com.google.api.services.drive.Drive;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.events.session.ReadyEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -14,11 +15,11 @@ public class JDAController extends ListenerAdapter {
         LOG_CHANNEL_ID = new PropertiesLoad().getValue("log_channel_id");
     }
 
-    @Override
-    public void onReady(ReadyEvent event) {
-        event.getJDA().getTextChannelById(LOG_CHANNEL_ID).sendMessage("실행").queue();
-        super.onReady(event);
-    }
+//    @Override
+//    public void onReady(ReadyEvent event) {
+//        event.getJDA().getTextChannelById(LOG_CHANNEL_ID).sendMessage("실행").queue();
+//        super.onReady(event);
+//    }
 
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
@@ -47,6 +48,10 @@ public class JDAController extends ListenerAdapter {
                                 scheduleService.getLogFileOpen(event, messge_split[2]);
                                 break;
                         }
+                        break;
+                    case "실행":
+                        // !스케줄러 실행 <수집할 페이지 갯수>
+                        scheduleService.startSchedule(event, messge_split[2]);
                         break;
                 }
                 break;

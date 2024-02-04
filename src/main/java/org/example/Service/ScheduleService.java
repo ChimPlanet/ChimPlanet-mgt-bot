@@ -11,17 +11,20 @@ import org.example.util.PropertiesLoad;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
-import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.List;
-import java.util.Scanner;
 
 public class ScheduleService {
     private static String DIR_ID; // Google Drive Log가 저장되는 폴더의 고유 ID
+
+    private static String SCHEDULE_URL; // 강제 스케줄러 실행에 사용될 URL
 
     private static Drive SERVICE;
 
     public ScheduleService () {
         DIR_ID = new PropertiesLoad().getValue("dir_id");
+        SCHEDULE_URL = new PropertiesLoad().getUrlValue("schedule_url");
         try {
             SERVICE = new DriveQuickStartService().startGoogleDrive();
         } catch (Exception e) {
@@ -111,5 +114,22 @@ public class ScheduleService {
 
         // Discord 메시지 전송
         event.getChannel().sendMessageEmbeds(eb.build()).queue();
+    }
+
+    /** 강제 스케줄러 실행 메서드 */
+    public void startSchedule (MessageReceivedEvent event, String pageSize) {
+        URL url = null;
+        HttpURLConnection conn = null;
+        try {
+            url = new URL(SCHEDULE_URL + pageSize);
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setConnectTimeout(5000);
+            conn.setRequestProperty("Content-Type", "application/json");
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

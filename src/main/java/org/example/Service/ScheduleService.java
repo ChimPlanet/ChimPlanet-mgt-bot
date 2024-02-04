@@ -1,5 +1,6 @@
 package org.example.Service;
 
+import com.google.api.client.http.HttpResponseException;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
@@ -7,6 +8,7 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.example.util.EmbedMessage;
 import org.example.util.PropertiesLoad;
+import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
@@ -32,7 +34,7 @@ public class ScheduleService {
         try {
             String print_str = "";
 
-            // Google Drive Start
+            // parents 변수 : 검색할 파일의 폴더 지정
             String parents = "parents = '" + DIR_ID + "'";
 
             FileList result = SERVICE.files().list()
@@ -67,29 +69,34 @@ public class ScheduleService {
         EmbedBuilder eb = null;
 
         try {
-            // Google Drive Start
-            String parents = "parents = '" + DIR_ID + "'";
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
-            System.out.println(SERVICE.files().get(file_id).);
+            String content = "";
 
-            OutputStream outputStream = new ByteArrayOutputStream();
-            SERVICE.files().get(file_id)
-                    .executeMediaAndDownloadTo(outputStream);
+            // Google Drive에서 파일 Blob 가져오기
+            try {
+                SERVICE.files().get(file_id)
+                        .executeMediaAndDownloadTo(outputStream);
 
-            Scanner sc = new Scanner((Readable) outputStream);
-//            Scanner sc = null;
-            String temp = "", content = "";
+                content = "```" + new String(outputStream.toByteArray(),"UTF-8") + "```";
+            } catch (HttpResponseException e) {
+                // 파일의 내용이 비어있거나 파일이 없을때 Error Code를 이용하여 구분
+                JSONObject ejson = (JSONObject) new JSONObject(e.getContent()).get("error");
 
-            // 파일 읽기
-            while(sc.hasNextLine()) {
-                temp += sc.nextLine() + "\n";
+                System.out.println(ejson);
+                String code = "" + ejson.get("code");
+
+                switch (code) {
+                    case "404":
+                        content = "`" + file_id + "` 파일이 없습니다.\n파일 ID를 확인하고 다시 시도하십시오.";
+                        break;
+                    case "416":
+                        content = ":u7121: 파일의 내용이 없습니다. :u7121:";
+                        break;
+                    default:
+                        break;
+                }
             }
-
-            // 파일의 내용이 공백인지 확인
-            if (null == temp || temp.equals(""))
-                content = ":u7121: 파일의 내용이 없습니다. :u7121:";
-            else
-                content = "```" + temp + "```";
 
             eb = new EmbedMessage().getEmbed(
                     ":page_facing_up: `" + file_id + "`의 로그",
@@ -97,7 +104,7 @@ public class ScheduleService {
             );
         } catch (Exception e) {
             eb = new EmbedMessage().getErrorEmbed(
-                    "`" + file_id + "` 파일이 없습니다.\n파일 이름을 확인하고 다시 시도하십시오."
+                    "Error"
             );
             e.printStackTrace();
         }

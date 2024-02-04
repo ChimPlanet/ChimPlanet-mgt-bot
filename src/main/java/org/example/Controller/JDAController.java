@@ -49,6 +49,10 @@ public class JDAController extends ListenerAdapter {
                                 break;
                         }
                         break;
+                    case "실행":
+                        // !스케줄러 실행 <수집할 페이지 갯수>
+                        scheduleService.startSchedule(event, messge_split[2]);
+                        break;
                 }
                 break;
         }

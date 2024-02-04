@@ -44,7 +44,7 @@ public class JDAController extends ListenerAdapter {
                             case "목록":
                                 scheduleService.getLogFileList(event);
                                 break;
-                            default:
+                            case "로그":
                                 scheduleService.getLogFileOpen(event, messge_split[2]);
                                 break;
                         }

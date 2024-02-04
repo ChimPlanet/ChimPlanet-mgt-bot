@@ -17,3 +17,12 @@
     + credentials.json
   + /token
     + StoredCredential
+
+## 구현 체크 리스트
+  + [x] 스케줄러 로그 파일 리스트 출력 기능
+  + [x] 로그 파일 열람 기능
+  + [x] Google Drive 연동
+  + [ ] 강제 스케줄러 실행 기능
+  + [ ] Error Logger 기능
+
+###### 코드가 너무 더럽습니다... 양해 부탁드립니다..

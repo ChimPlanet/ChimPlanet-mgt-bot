@@ -16,14 +16,14 @@ import java.net.URL;
 import java.util.List;
 
 public class ScheduleService {
-    private static String DIR_ID; // Google Drive Log가 저장되는 폴더의 고유 ID
+    private static String LOG_DIR_ID; // Google Drive Log가 저장되는 폴더의 고유 ID
 
     private static String SCHEDULE_URL; // 강제 스케줄러 실행에 사용될 URL
 
     private static Drive SERVICE;
 
     public ScheduleService () {
-        DIR_ID = new PropertiesLoad().getValue("dir_id");
+        LOG_DIR_ID = new PropertiesLoad().getValue("log_dir_id");
         SCHEDULE_URL = new PropertiesLoad().getUrlValue("schedule_url");
         try {
             SERVICE = new DriveQuickStartService().startGoogleDrive();
@@ -38,7 +38,7 @@ public class ScheduleService {
             String print_str = "";
 
             // parents 변수 : 검색할 파일의 폴더 지정
-            String parents = "parents = '" + DIR_ID + "'";
+            String parents = "parents = '" + LOG_DIR_ID + "'";
 
             FileList result = SERVICE.files().list()
                     .setQ(parents)  // 폴더의 고유 ID

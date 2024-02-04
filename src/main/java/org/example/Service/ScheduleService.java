@@ -46,7 +46,7 @@ public class ScheduleService {
                     .execute();
             List<File> files = result.getFiles();
             if (files == null || files.isEmpty()) {
-                System.out.println("No files found.");
+//                System.out.println("No files found.");
             } else {
                 for (File file : files) {
                     print_str += "----------------------------\n" +
@@ -86,7 +86,7 @@ public class ScheduleService {
                 // 파일의 내용이 비어있거나 파일이 없을때 Error Code를 이용하여 구분
                 JSONObject ejson = (JSONObject) new JSONObject(e.getContent()).get("error");
 
-                System.out.println(ejson);
+//                System.out.println(ejson);
                 String code = "" + ejson.get("code");
 
                 switch (code) {
